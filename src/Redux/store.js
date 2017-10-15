@@ -1,8 +1,8 @@
 import { applyMiddleware, createStore, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import { authReducer, updateUserDetails } from './Redux/authReducer';
-import auth from './Auth/Auth';
+import { authReducer, updateUserDetails } from './reducers/index';
+import auth from '../Auth/Auth';
 
 const loggerMiddleware = createLogger();
 

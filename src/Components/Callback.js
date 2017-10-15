@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUserDetailsThunk } from './../Redux/authReducer';
+import { getUserDetailsThunk } from './../Redux/reducers';
 
 class Callback extends Component {
   render() {

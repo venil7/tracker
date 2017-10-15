@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import { NavbarLogo } from './NavbarLogo';
-import { logoutThunk, loginThunk } from '../../Redux/authReducer';
+import { logoutThunk, loginThunk } from '../../Redux/reducers';
 import { AuthLink } from './AuthLink';
 
 class TopMenu extends Component {
