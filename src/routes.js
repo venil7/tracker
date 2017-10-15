@@ -1,6 +1,7 @@
 import React from 'react';
 import { branch, renderComponent } from 'recompose';
-import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import { Home, Account, Callback, TopMenu } from './Components/index';
 import history from './history';
 
@@ -19,7 +20,7 @@ const AuthAccount = withAuthentication(Account);
 
 const createRoutes = auth => {
   return (
-    <Router history={history}>
+    <ConnectedRouter history={history}>
       <div>
         <TopMenu auth={auth} />
         <div className="container">
@@ -47,7 +48,7 @@ const createRoutes = auth => {
           </Switch>
         </div>
       </div>
-    </Router>
+    </ConnectedRouter>
   );
 };
 
