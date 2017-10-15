@@ -7,10 +7,10 @@ class Callback extends Component {
     return <div>loading...</div>;
   }
   componentWillUnmount() {
-    setTimeout(() => this.props.dispatch(getUserDetailsThunk(this.props.auth)));
+    const { auth, dispatch } = this.props;
+    setTimeout(() => dispatch(getUserDetailsThunk(auth)));
   }
 }
 
-// const stateToProps = () => ({});
 const ConnectedCallback = connect()(Callback);
 export { ConnectedCallback as Callback };

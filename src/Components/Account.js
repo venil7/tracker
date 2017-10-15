@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
 import axios from 'axios';
+
+const StyledButton = styled.button`
+  background-color: darkviolet;
+  color: palevioletred;
+  font-weight: bold;
+`;
 
 export class Account extends Component {
   constructor() {
@@ -27,7 +33,7 @@ export class Account extends Component {
         <div>
           <code>{this.state.message}</code>
         </div>
-        <Button onClick={() => this.fetch()}>fetch</Button>
+        <StyledButton onClick={() => this.fetch()}>fetch from api</StyledButton>
       </div>
     );
   }

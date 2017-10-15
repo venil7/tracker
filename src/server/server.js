@@ -42,11 +42,8 @@ app.get('/api/public', function(req, res) {
   });
 });
 
-app.get(
-  '/api/private',
-  checkJwt,
-  /*checkScopes,*/ (req, res) =>
-    res.json({ message: 'Hello from a private endpoint!' })
+app.get('/api/private', checkJwt, checkScopes, (req, res) =>
+  res.json({ message: 'Hello from a private endpoint!' })
 );
 
 app.listen(3001);

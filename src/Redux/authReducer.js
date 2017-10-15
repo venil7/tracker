@@ -1,4 +1,4 @@
-import Auth from '../Auth/Auth';
+import { Auth } from '../Auth/Auth';
 
 const initState = {
   authenticated: false,
@@ -20,6 +20,16 @@ const getUserDetailsThunk = (auth: Auth) => (dispatch, getState) => {
   });
 };
 
+const logoutThunk = (auth: Auth) => (dispatch, getState) => {
+  auth.logout();
+  return dispatch(updateUserDetails());
+};
+
+const loginThunk = (auth: Auth) => (dispatch, getState) => {
+  auth.login();
+  return dispatch(updateUserDetails());
+};
+
 const authReducer = (state = initState, action): void => {
   switch (action.type) {
     case 'AUTH/UPDATE_USER_DETAILS': {
@@ -34,4 +44,10 @@ const authReducer = (state = initState, action): void => {
   }
 };
 
-export { authReducer, getUserDetailsThunk, updateUserDetails };
+export {
+  authReducer,
+  getUserDetailsThunk,
+  logoutThunk,
+  loginThunk,
+  updateUserDetails
+};

@@ -83,5 +83,5 @@ class Auth {
     return new Date().getTime() < expiresAt;
   }
 }
-
+export { Auth };
 export default new Auth();

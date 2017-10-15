@@ -1,37 +1,51 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
-import { Home, Account, Callback, Menu } from './Components/index';
+import { branch, renderComponent } from 'recompose';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import { Home, Account, Callback, TopMenu } from './Components/index';
 import history from './history';
-import auth from './Auth/Auth';
 
-const handleCallback = nextState => {
+const handleCallback = auth => nextState => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
     auth.handleAuthentication();
   }
 };
 
-const createRoutes = () => {
+const withAuthentication = branch(
+  props => !props.authenticated,
+  renderComponent(props => <Redirect to="/" />)
+);
+
+const AuthAccount = withAuthentication(Account);
+
+const createRoutes = auth => {
   return (
     <Router history={history}>
       <div>
-        <Route path="/" render={props => <Menu auth={auth} {...props} />} />
-        <Route
-          path="/"
-          exact={true}
-          render={props => <Home auth={auth} {...props} />}
-        />
-        <Route
-          path="/account"
-          exact={true}
-          render={props => <Account auth={auth} {...props} />}
-        />
-        <Route
-          path="/callback"
-          render={props => {
-            handleCallback(props);
-            return <Callback auth={auth} {...props} />;
-          }}
-        />
+        <TopMenu auth={auth} />
+        <div className="container">
+          <Switch>
+            <Route
+              path="/"
+              exact={true}
+              render={props => <Home {...props} />}
+            />
+            <Route
+              path="/api"
+              exact={true}
+              render={props => {
+                const authenticated = auth.isAuthenticated();
+                return <AuthAccount authenticated={authenticated} {...props} />;
+              }}
+            />
+            <Route
+              path="/callback"
+              render={props => {
+                handleCallback(auth)(props);
+                return <Callback auth={auth} {...props} />;
+              }}
+            />
+          </Switch>
+        </div>
       </div>
     </Router>
   );
