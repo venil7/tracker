@@ -52,6 +52,7 @@ class Auth {
     return accessToken;
   }
 
+  // promisify this
   getProfile(callback) {
     const accessToken = this.getAccessToken();
     this.auth0.client.userInfo(accessToken, (err, profile) => {

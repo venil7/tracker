@@ -5,6 +5,8 @@ import { compose } from 'recompose';
 import { NavbarLogo } from './NavbarLogo';
 import { logoutThunk, loginThunk } from '../../Redux/reducers';
 import { AuthLink } from './AuthLink';
+import { AuthButton } from './AuthButton';
+import { Avatar } from './Avatar';
 
 class TopMenu extends Component {
   login() {
@@ -18,7 +20,8 @@ class TopMenu extends Component {
   }
 
   render() {
-    const authenticated = this.props.auth.isAuthenticated();
+    const { auth } = this.props;
+    const authenticated = auth.isAuthenticated();
     // const user =
     //   authenticated && this.props.authentication.userDetails
     //     ? this.props.authentication.userDetails.name
@@ -41,26 +44,22 @@ class TopMenu extends Component {
             <AuthLink to="/api" href="/api" authenticated={authenticated}>
               API
             </AuthLink>
+          </ul>
+          <form class="form-inline">
+            <Avatar auth={auth} authenticated={authenticated} />
+            <AuthButton
+              className="btn-success"
+              authenticated={!authenticated}
+              onClick={() => this.login()}
+            >
+              Login
+            </AuthButton>
             <AuthLink
               authenticated={authenticated}
               onClick={() => this.logout()}
             >
               Logout
             </AuthLink>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input
-              className="form-control mr-sm-2"
-              type="text"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-            >
-              Search
-            </button>
           </form>
         </div>
       </nav>
