@@ -52,14 +52,14 @@ class Auth {
     return accessToken;
   }
 
-  // promisify this
-  getProfile(callback) {
+  async getProfile() {
     const accessToken = this.getAccessToken();
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
+    this.auth0.client.userInfo(accessToken, (error, profile) => {
       if (profile) {
         this.userProfile = profile;
+        return profile;
       }
-      callback(err, profile);
+      throw error;
     });
   }
 

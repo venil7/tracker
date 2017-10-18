@@ -45,7 +45,7 @@ class TopMenu extends Component {
               API
             </AuthLink>
           </ul>
-          <form class="form-inline">
+          <form className="form-inline">
             <Avatar auth={auth} authenticated={authenticated} />
             <AuthButton
               className="btn-success"

@@ -35,7 +35,13 @@ const createRoutes = auth => {
               exact={true}
               render={props => {
                 const authenticated = auth.isAuthenticated();
-                return <AuthAccount authenticated={authenticated} {...props} />;
+                return (
+                  <AuthAccount
+                    authenticated={authenticated}
+                    auth={auth}
+                    {...props}
+                  />
+                );
               }}
             />
             <Route

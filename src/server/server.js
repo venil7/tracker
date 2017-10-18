@@ -1,50 +1,37 @@
+const dotenv = require('dotenv').config({ silent: true });
 const express = require('express');
-const app = express();
-const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
-const jwksRsa = require('jwks-rsa');
 const cors = require('cors');
-const morgan = require('morgan');
-require('dotenv').config({ silent: true });
 
-if (!process.env.REACT_APP_DOMAIN || !process.env.REACT_APP_AUDIENCE) {
-  throw 'Make sure you have REACT_APP_DOMAIN, and REACT_APP_AUDIENCE in your .env file';
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const PRODUCTION = NODE_ENV === 'production';
+const PORT = process.env.PORT || (PRODUCTION ? 3000 : 3001);
+const proxy = require('http-proxy-middleware');
+const { checkJwt, checkScopes } = require('./auth');
+const logging = require('./logging');
+
+const app = express();
+app.use(cors());
+app.use(logging());
+
+if (NODE_ENV === 'production') {
+  app.use(express.static('./build'));
 }
 
-app.use(cors());
-app.use(
-  morgan(
-    'API Request (port 3001): :method :url :status :response-time ms - :res[content-length]'
-  )
-);
-
-const checkJwt = jwt({
-  // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `https://${process.env.REACT_APP_DOMAIN}/.well-known/jwks.json`
-  }),
-
-  // Validate the audience and the issuer.
-  audience: process.env.REACT_APP_AUDIENCE,
-  issuer: `https://${process.env.REACT_APP_DOMAIN}/`,
-  algorithms: ['RS256']
-});
-
-const checkScopes = jwtAuthz(['api']);
-
-app.get('/api/public', function(req, res) {
-  res.json({
-    message:
-      "Hello from a public endpoint! You don't need to be authenticated to see this."
-  });
-});
-
 app.get('/api/private', checkJwt, checkScopes, (req, res) =>
-  res.json({ message: 'Hello from a private endpoint!' })
+  res.json({ message: 'some private message' })
 );
 
-app.listen(3001);
-console.log('Server listening on http://localhost:3001');
+app.use(
+  '/api/kraken',
+  proxy({
+    target: 'https://api.kraken.com',
+    changeOrigin: true,
+    // logLevel: 'debug',
+    pathRewrite: {
+      '^/api/kraken': '/0/public' // rewrite path
+    }
+  })
+);
+
+app.listen(PORT);
+console.log(`Server running on ${PORT} in ${NODE_ENV} mode`);

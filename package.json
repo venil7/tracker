@@ -27,15 +27,17 @@
     "styled-components": "^2.2.1"
   },
   "scripts": {
-    "start": "npm-run-all --parallel server:start client:start",
-    "client:start": "react-scripts start",
-    "server:start": "node src/server/server.js",
+    "start": "npm-run-all --parallel start:server start:client",
+    "start:client": "react-scripts start",
+    "start:server": "nodemon src/Server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-scripts": "1.0.14",
-    "npm-run-all": "^4.1.1"
+    "http-proxy-middleware": "^0.17.4",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1",
+    "react-scripts": "1.0.14"
   }
 }

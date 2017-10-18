@@ -9,15 +9,13 @@ const updateUserDetails = (userDetails = null) => {
   return { type: 'AUTH/UPDATE_USER_DETAILS', userDetails };
 };
 
-const getUserDetailsThunk = (auth: Auth) => (dispatch, getState) => {
-  auth.getProfile((error, userDetails) => {
-    if (error) {
-      console.log(error);
-      return dispatch(updateUserDetails());
-    }
-
+const getUserDetailsThunk = (auth: Auth) => async (dispatch, getState) => {
+  try {
+    const userDetails = await auth.getProfile();
     dispatch(updateUserDetails(userDetails));
-  });
+  } catch (error) {
+    dispatch(updateUserDetails());
+  }
 };
 
 const logoutThunk = (auth: Auth) => (dispatch, getState) => {
