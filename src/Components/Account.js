@@ -20,8 +20,8 @@ export class Account extends Component {
     const { getAccessToken } = this.props.auth;
     const headers = { Authorization: `Bearer ${getAccessToken()}` };
     axios
-      // .get(`${process.env.REACT_APP_API}/private`, {
-      .get(`${process.env.REACT_APP_API}/kraken/Ticker?pair=XBTEUR,ETHEUR`, {
+      .get(`${process.env.REACT_APP_API}/asset`, {
+        // .get(`${process.env.REACT_APP_API}/kraken/Ticker?pair=XBTEUR,ETHEUR`, {
         headers
       })
       .then(response => this.setState({ message: response.data.message }))

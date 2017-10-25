@@ -1,6 +1,6 @@
-const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
-const jwksRsa = require('jwks-rsa');
+import * as jwt from 'express-jwt';
+import * as jwtAuthz from 'express-jwt-authz';
+import * as jwksRsa from 'jwks-rsa';
 
 if (!process.env.REACT_APP_DOMAIN || !process.env.REACT_APP_AUDIENCE) {
   throw new Error(
@@ -26,7 +26,4 @@ const checkJwt = jwt({
 
 const checkScopes = jwtAuthz(['api']);
 
-module.exports = {
-  checkJwt,
-  checkScopes
-};
+export { checkJwt, checkScopes };
