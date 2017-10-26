@@ -7,15 +7,18 @@ import { checkJwt, checkScopes } from './auth';
 import { AssetController } from './controllers/assetController';
 import logging from './logging';
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
+const { NODE_ENV = 'development' } = process.env;
 const PRODUCTION = NODE_ENV === 'production';
-const PORT = process.env.PORT || (PRODUCTION ? 3000 : 3001);
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
 app.use(logging());
 
 if (NODE_ENV === 'production') {
+  app.get('/callback', (req, res) =>
+    res.sendFile('./build/index.html', { root: process.cwd() })
+  );
   app.use(express.static('./build'));
 }
 

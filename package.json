@@ -54,5 +54,6 @@
     "nodemon": "^1.12.1",
     "npm-run-all": "^4.1.1",
     "react-scripts": "1.0.14"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }

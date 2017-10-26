@@ -8,10 +8,11 @@ if (!process.env.REACT_APP_DOMAIN || !process.env.REACT_APP_AUDIENCE) {
   );
 }
 
+const jwksrsa: any = jwksRsa;
 const checkJwt = jwt({
   // Dynamically provide a signing key based on
   // the kid in the header and the singing keys provided by the JWKS endpoint.
-  secret: jwksRsa.expressJwtSecret({
+  secret: jwksrsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
