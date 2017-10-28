@@ -9,7 +9,7 @@ import logging from './logging';
 
 const { NODE_ENV = 'development' } = process.env;
 const PRODUCTION = NODE_ENV === 'production';
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3030;
 
 const app = express();
 app.use(cors());
@@ -41,5 +41,5 @@ app.use(
 const assetController = new AssetController();
 app.get('/api/asset', checkJwt, checkScopes, assetController.get);
 
-app.listen(PORT);
+app.listen(3030, '0.0.0.0');
 console.log(`Server running on ${PORT} in ${NODE_ENV} mode`);

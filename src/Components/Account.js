@@ -21,7 +21,6 @@ export class Account extends Component {
     const headers = { Authorization: `Bearer ${getAccessToken()}` };
     axios
       .get(`/api/asset`, {
-        // .get(`${process.env.REACT_APP_API}/kraken/Ticker?pair=XBTEUR,ETHEUR`, {
         headers
       })
       .then(response => this.setState({ message: response.data.message }))
