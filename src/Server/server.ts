@@ -41,5 +41,5 @@ app.use(
 const assetController = new AssetController();
 app.get('/api/asset', checkJwt, checkScopes, assetController.get);
 
-app.listen(3030, '0.0.0.0');
+app.listen(PORT);
 console.log(`Server running on ${PORT} in ${NODE_ENV} mode`);
